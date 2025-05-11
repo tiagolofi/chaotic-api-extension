@@ -5,14 +5,16 @@ import com.github.tiagolofi.ports.Card;
 public class Engaged {
     private Card creature;
     private Card battlegear;
-    private boolean isInitiative;
+    private boolean hasInitiative;
     private boolean isAlive;
+    private boolean isBattlegearActive;
 
     public Engaged(Card creature, Card battlegear) {
         this.creature = creature;
         this.battlegear = battlegear;
-        this.isInitiative = false;
+        this.hasInitiative = false;
         this.isAlive = true;
+        this.isBattlegearActive = false;
     }
 
     public Card getCreature() {
@@ -31,12 +33,12 @@ public class Engaged {
         this.battlegear = battlegear;
     }
 
-    public boolean isInitiative() {
-        return this.isInitiative;
+    public boolean hasInitiative() {
+        return this.hasInitiative;
     }
 
-    public void setInitiative(boolean isInitiative) {
-        this.isInitiative = isInitiative;
+    public void setHasInitiative(boolean hasInitiative) {
+        this.hasInitiative = hasInitiative;
     }
 
     public boolean isAlive() {
@@ -45,5 +47,13 @@ public class Engaged {
 
     public void setAlive(boolean isAlive) {
         this.isAlive = isAlive;
+    }
+
+    public boolean isBattlegearActive() {
+        return this.isBattlegearActive;
+    }
+
+    public void setBattlegearActive(boolean isBattlegearActive) {
+        this.isBattlegearActive = isBattlegearActive;
     }
 }

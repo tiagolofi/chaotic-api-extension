@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.github.tiagolofi.ports.Card;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class Strikes {
     private List<Card> strikes = new ArrayList<>();
 
@@ -18,5 +21,9 @@ public class Strikes {
 
     public List<Card> getStrikes() {
         return this.strikes;
+    }
+
+    public void clear() {
+        this.strikes.clear();
     }
 }

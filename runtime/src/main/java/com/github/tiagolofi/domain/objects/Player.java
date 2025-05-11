@@ -1,10 +1,15 @@
 package com.github.tiagolofi.domain.objects;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class Player {
     private Deck deck;
     private DiscardPile discardPile;
     private boolean isActive;
     private boolean isWinner;
+
+    public Player() {}
 
     public Player(Deck deck) {
         this.deck = deck;

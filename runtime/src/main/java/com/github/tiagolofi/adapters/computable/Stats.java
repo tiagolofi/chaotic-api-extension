@@ -97,6 +97,23 @@ public class Stats implements Computable {
         this.energy -= energy;
     }
 
+    public int get(String stat) {
+    switch (stat.toLowerCase()) {
+        case "courage":
+            return this.courage;
+        case "power":
+            return this.power;
+        case "wisdom":
+            return this.wisdom;
+        case "speed":
+            return this.speed;
+        case "energy":
+            return this.energy;
+        default:
+            throw new IllegalArgumentException("Stat desconhecida: " + stat);
+    }
+}
+
     @Override
     public String getAttribute() {
         throw new UnsupportedOperationException("Unimplemented method 'getAttribute'");

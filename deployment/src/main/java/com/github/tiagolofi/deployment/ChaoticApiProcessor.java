@@ -2,7 +2,6 @@ package com.github.tiagolofi.deployment;
 
 import com.github.tiagolofi.domain.engine.Burst;
 import com.github.tiagolofi.domain.engine.Engaged;
-import com.github.tiagolofi.domain.engine.Match;
 import com.github.tiagolofi.domain.engine.Turn;
 
 
@@ -17,7 +16,6 @@ public final class ChaoticApiProcessor extends MultiBuildItem {
     public ChaoticApiBuildItem registerOneService() {
         return new ChaoticApiBuildItem(
             SERVICE_NAME,
-            Match.class.getName(),
             Burst.class.getName(),
             Engaged.class.getName(),
             Turn.class.getName()

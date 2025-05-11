@@ -3,6 +3,7 @@ package com.github.tiagolofi.domain.engine;
 import java.util.List;
 
 import com.github.tiagolofi.adapters.Creature;
+import com.github.tiagolofi.domain.objects.Player;
 import com.github.tiagolofi.ports.Card;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -15,7 +16,10 @@ public class Board {
     private static final String ABILITY_TYPE = "board";
 
     @Inject
-    Match match;
+    Player player1;
+
+    @Inject
+    Player player2;
 
     @Inject
     Burst burst;
@@ -29,7 +33,7 @@ public class Board {
     }
 
     public void startBoard() {
-        List<Card> cards = match.getPlayer1().getDeck()
+        List<Card> cards = player1.getDeck()
             .getCreatures();
 
         cards.forEach(card -> {
@@ -40,4 +44,23 @@ public class Board {
                 .forEach(ability -> burst.addTrigger(ability));  
         });
     }
+
+    private Player getPlayer(String who) {
+        if ("player1".equalsIgnoreCase(who)) {
+            return player1;
+        } else if ("player2".equalsIgnoreCase(who)) {
+            return player2;
+        }
+        return new Player();
+    }
+
+    public Card getAttack(String who) {
+        Player player = getPlayer(who);
+        Card attackCard = player.getDeck().getAttack(0);
+        player.getDeck().removeAttack(attackCard);
+        player.getDiscardPile().addAttack(attackCard);
+        return attackCard;
+    }
+
+
 }

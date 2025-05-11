@@ -13,9 +13,10 @@ public class Creature implements Card {
     private List<String> subtype;
     private Stats stats;
     private List<Ability> abilities;
+    private List<String> elements;
     private byte[] image;
 
-    public Creature(String chaoticId, String name, String tribe, List<String> subtype, Stats stats, List<Ability> abilities, byte[] image) {
+    public Creature(String chaoticId, String name, String tribe, List<String> subtype, Stats stats, List<Ability> abilities, byte[] image, List<String> elements) {
         this.chaoticId = chaoticId;
         this.name = name;
         this.tribe = tribe;
@@ -23,6 +24,7 @@ public class Creature implements Card {
         this.stats = stats;
         this.abilities = abilities;
         this.image = image;
+        this.elements = elements;
     }
 
     public String getChaoticId() {
@@ -47,6 +49,10 @@ public class Creature implements Card {
 
     public List<Ability> getAbilities() {
         return this.abilities;
+    }
+
+    public List<String> getElements() {
+        return this.elements;
     }
 
     public byte[] getImage() {
@@ -77,6 +83,10 @@ public class Creature implements Card {
         this.abilities = abilities;
     }
 
+    public void setElements(List<String> elements) {
+        this.elements = elements;
+    }
+
     public void setImage(byte[] image) {
         this.image = image;
     }
@@ -95,6 +105,14 @@ public class Creature implements Card {
 
     public void removeSubtype(String subtype) {
         this.subtype.remove(subtype);
+    }
+
+    public void addElement(String element) {
+        this.elements.add(element);
+    }
+
+    public void removeElement(String element) {
+        this.elements.remove(element);
     }
 
 }
