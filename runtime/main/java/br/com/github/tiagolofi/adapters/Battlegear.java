@@ -1,5 +1,7 @@
 package br.com.github.tiagolofi.adapters;
 
+import java.util.List;
+
 public class Battlegear implements Card {
     private String chaoticId;
     private String name;

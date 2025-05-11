@@ -1,5 +1,7 @@
 package br.com.github.tiagolofi.domain.objects;
 
+import java.util.List;
+
 public class DiscardPile {
     List<Card> attacks = new ArrayList<>();
 
