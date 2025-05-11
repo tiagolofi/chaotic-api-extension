@@ -35,4 +35,64 @@ public class Damage implements Computable {
         return this.water;
     }
 
+    public void setBasic(int basic) {
+        this.basic = basic;
+    }
+
+    public void setFire(int fire) {
+        this.fire = fire;
+    }
+
+    public void setAir(int air) {
+        this.air = air;
+    }
+
+    public void setEarth(int earth) {
+        this.earth = earth;
+    }
+
+    public void setWater(int water) {
+        this.water = water;
+    }
+
+    public void addBasic(int basic) {
+        this.basic += basic;
+    }
+
+    public void addFire(int fire) {
+        this.fire += fire;
+    }
+
+    public void addAir(int air) {
+        this.air += air;
+    }
+
+    public void addEarth(int earth) {
+        this.earth += earth;
+    }
+
+    public void addWater(int water) {
+        this.water += water;
+    }
+
+    public void removeBasic(int basic) {
+        this.basic -= basic;
+    }
+
+    public void removeFire(int fire) {
+        this.fire -= fire;
+    }
+
+    public void removeAir(int air) {
+        this.air -= air;
+    }
+
+    public void removeEarth(int earth) {
+        this.earth -= earth;
+    }
+
+    public void removeWater(int water) {
+        this.water -= water;
+    }
+
 }

@@ -1,6 +1,6 @@
 package br.com.github.tiagolofi.adapters;
 
-public class Stats {
+public class Stats implements Computable {
     private int courage;
     private int power;
     private int wisdom;
