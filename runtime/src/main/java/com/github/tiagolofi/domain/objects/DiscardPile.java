@@ -12,6 +12,10 @@ public class DiscardPile {
         this.attacks.add(attack);
     }
 
+    public Card getAttack(int index) {
+        return this.attacks.get(index);
+    }
+
     public void removeAttack(Card attack) {
         this.attacks.remove(attack);
     }

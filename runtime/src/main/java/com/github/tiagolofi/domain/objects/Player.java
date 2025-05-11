@@ -2,6 +2,7 @@ package com.github.tiagolofi.domain.objects;
 
 public class Player {
     private Deck deck;
+    private DiscardPile discardPile;
     private boolean isActive;
     private boolean isWinner;
 
@@ -33,5 +34,13 @@ public class Player {
 
     public void setWinner(boolean isWinner) {
         this.isWinner = isWinner;
+    }
+
+    public DiscardPile getDiscardPile() {
+        return this.discardPile;
+    }
+
+    public void setDiscardPile(DiscardPile discardPile) {
+        this.discardPile = discardPile;
     }
 }

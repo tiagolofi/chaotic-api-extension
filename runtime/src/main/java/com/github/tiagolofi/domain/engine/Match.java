@@ -2,6 +2,9 @@ package com.github.tiagolofi.domain.engine;
 
 import com.github.tiagolofi.domain.objects.Player;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class Match {
     private Player player1;
     private Player player2;

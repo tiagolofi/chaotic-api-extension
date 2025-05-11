@@ -2,6 +2,7 @@ package com.github.tiagolofi.adapters;
 
 import java.util.List;
 
+import com.github.tiagolofi.adapters.computable.Stats;
 import com.github.tiagolofi.adapters.triggerable.Ability;
 import com.github.tiagolofi.ports.Card;
 

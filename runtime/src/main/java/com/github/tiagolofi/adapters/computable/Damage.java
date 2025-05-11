@@ -1,4 +1,4 @@
-package com.github.tiagolofi.adapters;
+package com.github.tiagolofi.adapters.computable;
 
 import com.github.tiagolofi.ports.Computable;
 

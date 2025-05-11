@@ -32,6 +32,26 @@ public class Deck {
         return this.locations;
     }
 
+    public Card getCreature(int index) {
+        return this.creatures.get(index);
+    }
+
+    public Card getBattlegear(int index) {
+        return this.battlegears.get(index);
+    }
+
+    public Card getAttack(int index) {
+        return this.attacks.get(index);
+    }
+
+    public Card getMugic(int index) {
+        return this.mugic.get(index);
+    }
+
+    public Card getLocation(int index) {
+        return this.locations.get(index);
+    }
+
     public void addCreature(Card creature) {
         this.creatures.add(creature);
     }
