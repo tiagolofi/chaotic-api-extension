@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.github.tiagolofi</groupId>
-        <artifactId>chaotic-api-extension</artifactId>
+        <artifactId>chaotic-api-extension-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>chaotic-api-extension-runtime</artifactId>
+    <artifactId>chaotic-api-extension</artifactId>
 
     <dependencies>
         <dependency>
