@@ -12,7 +12,7 @@ public final class ChaoticApiBuildItem extends MultiBuildItem {
 
     public ChaoticApiBuildItem(String serviceName, String... implementations) {
         this.serviceName = serviceName;
-        // Make sure it's immutable
+
         this.implementations = Collections.unmodifiableList(
             Arrays.asList(
                 implementations.clone()

@@ -11,9 +11,12 @@ import io.quarkus.deployment.annotations.BuildStep;
 
 public final class ChaoticApiProcessor extends MultiBuildItem {
 
+    public static final String SERVICE_NAME = "chaotic-api-extension";
+
     @BuildStep
     public ChaoticApiBuildItem registerOneService() {
         return new ChaoticApiBuildItem(
+            SERVICE_NAME,
             Match.class.getName(),
             Burst.class.getName(),
             Engaged.class.getName(),
