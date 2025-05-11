@@ -13,10 +13,12 @@ public final class ChaoticApiProcessor extends MultiBuildItem {
 
     @BuildStep
     public ChaoticApiBuildItem registerOneService() {
-    return new ChaoticApiBuildItem(
-        Match.class.getName(),
-        Burst.class.getName()
-    );
-}
+        return new ChaoticApiBuildItem(
+            Match.class.getName(),
+            Burst.class.getName(),
+            Engaged.class.getName(),
+            Turn.class.getName()
+        );
+    }
 
 }
