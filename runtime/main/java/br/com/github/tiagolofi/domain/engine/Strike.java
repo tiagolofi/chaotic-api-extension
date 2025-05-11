@@ -1,4 +1,4 @@
-package br.com.github.tiagolofi.domain;
+package br.com.github.tiagolofi.domain.engine;
 
 public class Strike {
     private Target target;

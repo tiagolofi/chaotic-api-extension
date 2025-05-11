@@ -1,4 +1,4 @@
-package br.com.github.tiagolofi.domain;
+package br.com.github.tiagolofi.domain.engine;
 
 public class Burst {
     private List<Effect> effects = new ArrayList<>();

@@ -1,4 +1,4 @@
-package br.com.github.tiagolofi.domain;
+package br.com.github.tiagolofi.domain.objects;
 
 public class Deck {
     private List<Card> creatures = new ArrayList<>();
