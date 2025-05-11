@@ -1,5 +1,5 @@
 package br.com.github.tiagolofi.ports;
 
-public interface Player {
+public interface Card {
     
 }
