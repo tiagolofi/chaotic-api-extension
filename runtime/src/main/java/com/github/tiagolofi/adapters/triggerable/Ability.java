@@ -1,22 +1,23 @@
-package com.github.tiagolofi.adapters;
+package com.github.tiagolofi.adapters.triggerable;
 
+import com.github.tiagolofi.adapters.targetable.Target;
 import com.github.tiagolofi.ports.Computable;
-import com.github.tiagolofi.ports.Effect;
-import com.github.tiagolofi.ports.Target;
+import com.github.tiagolofi.ports.Targetable;
+import com.github.tiagolofi.ports.Triggerable;
 
-public class Ability implements Effect {
+public class Ability implements Triggerable {
     private String name;
     private String type;
     private String description;
-    private Target target;
-    private Computable effect;
+    private Targetable target;
+    private Computable value;
 
-    public Ability(String name, String type, String description, Target target, Computable effect) {
+    public Ability(String name, String type, String description, Targetable target, Computable value) {
         this.name = name;
         this.type = type;
         this.description = description;
         this.target = target;
-        this.effect = effect;
+        this.value = value;
     }
 
     public String getName() {
@@ -31,12 +32,12 @@ public class Ability implements Effect {
         return this.description;
     }
 
-    public Target getTarget() {
+    public Targetable getTarget() {
         return this.target;
     }
 
-    public Computable getEffect() {
-        return this.effect;
+    public Computable getValue() {
+        return this.value;
     }
 
     public void setName(String name) {
@@ -55,25 +56,17 @@ public class Ability implements Effect {
         this.target = target;
     }
 
-    public void setEffect(Computable effect) {
-        this.effect = effect;
-    }
-
-    @Override
-    public Computable getComputable() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getComputable'");
+    public void setValue(Computable value) {
+        this.value = value;
     }
 
     @Override
     public boolean isToggleable() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'isToggleable'");
     }
 
     @Override
     public boolean isActive() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'isActive'");
     }
 

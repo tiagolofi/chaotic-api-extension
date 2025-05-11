@@ -3,7 +3,6 @@ package com.github.tiagolofi.deployment;
 import com.github.tiagolofi.domain.engine.Burst;
 import com.github.tiagolofi.domain.engine.Engaged;
 import com.github.tiagolofi.domain.engine.Match;
-import com.github.tiagolofi.domain.engine.Strike;
 import com.github.tiagolofi.domain.engine.Turn;
 
 

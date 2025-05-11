@@ -1,15 +1,15 @@
-package com.github.tiagolofi.adapters;
+package com.github.tiagolofi.adapters.triggerable;
 
 import com.github.tiagolofi.ports.Computable;
-import com.github.tiagolofi.ports.Effect;
-import com.github.tiagolofi.ports.Target;
+import com.github.tiagolofi.ports.Targetable;
+import com.github.tiagolofi.ports.Triggerable;
 
-public class Rule implements Effect {
+public class Rule implements Triggerable {
     private String ruleDescription;
-    private Target target;
+    private Targetable target;
     private Computable effect;
 
-    public Rule(String ruleDescription, Target target, Computable effect) {
+    public Rule(String ruleDescription, Targetable target, Computable effect) {
         this.ruleDescription = ruleDescription;
         this.target = target;
         this.effect = effect;
@@ -23,7 +23,11 @@ public class Rule implements Effect {
         this.ruleDescription = ruleDescription;
     }
 
-    public void setTarget(Target target) {
+    public Targetable getTarget() {
+        return this.target;
+    }
+
+    public void setTarget(Targetable target) {
         this.target = target;
     }
 
@@ -36,27 +40,14 @@ public class Rule implements Effect {
     }
 
     @Override
-    public Computable getComputable() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getComputable'");
-    }
-
-    @Override
     public boolean isToggleable() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'isToggleable'");
     }
 
     @Override
     public boolean isActive() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'isActive'");
     }
 
-    @Override
-    public Target getTarget() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTarget'");
-    }
 }
 

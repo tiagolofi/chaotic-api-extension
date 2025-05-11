@@ -2,8 +2,8 @@ package com.github.tiagolofi.adapters;
 
 import java.util.List;
 
+import com.github.tiagolofi.adapters.triggerable.Effect;
 import com.github.tiagolofi.ports.Card;
-import com.github.tiagolofi.ports.Effect;
 
 public class Location implements Card {
     private String chaotidId;

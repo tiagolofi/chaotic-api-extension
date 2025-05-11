@@ -2,5 +2,6 @@ package com.github.tiagolofi.ports;
 
 public interface Computable {
     public String getAttribute();
-    public String getValue();
+    public String getStringValue();
+    public int getIntValue();
 }

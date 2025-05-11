@@ -99,14 +99,17 @@ public class Damage implements Computable {
 
     @Override
     public String getAttribute() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAttribute'");
     }
 
     @Override
-    public String getValue() {
-        // TODO Auto-generated method stub
+    public String getStringValue() {
         throw new UnsupportedOperationException("Unimplemented method 'getValue'");
+    }
+
+    @Override
+    public int getIntValue() {
+        throw new UnsupportedOperationException("Unimplemented method 'getIntValue'");
     }
 
 }
