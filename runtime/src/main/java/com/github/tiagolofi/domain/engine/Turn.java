@@ -171,7 +171,7 @@ public class Turn {
         }
     }
 
-    // TODO: computeMugic and computeBattlegear
+    // TODO: computeBattlegear
 
     public void closeTurn(Player player1, Player player2) {
         if (player1.isWinner()) {
