@@ -3,7 +3,6 @@ package com.github.tiagolofi.domain.engine;
 import java.util.List;
 
 import com.github.tiagolofi.adapters.Creature;
-import com.github.tiagolofi.domain.objects.Player;
 import com.github.tiagolofi.ports.Card;
 
 import jakarta.enterprise.context.ApplicationScoped;

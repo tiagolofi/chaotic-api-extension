@@ -1,11 +1,9 @@
-package com.github.tiagolofi.domain.objects;
+package com.github.tiagolofi.domain.engine;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.github.tiagolofi.ports.Card;
-
-
 
 public class DiscardPile {
     List<Card> attacks = new ArrayList<>();

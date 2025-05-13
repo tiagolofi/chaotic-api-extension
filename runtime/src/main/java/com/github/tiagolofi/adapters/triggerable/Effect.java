@@ -1,17 +1,17 @@
 package com.github.tiagolofi.adapters.triggerable;
 
-import com.github.tiagolofi.adapters.valuable.Value;
 import com.github.tiagolofi.ports.Targetable;
 import com.github.tiagolofi.ports.Triggerable;
+import com.github.tiagolofi.ports.Valuable;
 
 public class Effect implements Triggerable {
     private String name;
     private String type;
     private String description;
     private Targetable target;
-    private Value value;
+    private Valuable value;
 
-    public Effect(String name, String description, String type, Targetable target, Value value) {
+    public Effect(String name, String description, String type, Targetable target, Valuable value) {
         this.name = name;
         this.description = description;
         this.type = type;
@@ -37,7 +37,7 @@ public class Effect implements Triggerable {
     }
 
     @Override
-    public Value getValue() {
+    public Valuable getValue() {
         return this.value;
     }
 
@@ -57,7 +57,7 @@ public class Effect implements Triggerable {
         this.target = target;
     }
 
-    public void setValue(Value value) {
+    public void setValue(Valuable value) {
         this.value = value;
     }
 

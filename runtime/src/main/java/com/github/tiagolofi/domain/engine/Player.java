@@ -1,4 +1,4 @@
-package com.github.tiagolofi.domain.objects;
+package com.github.tiagolofi.domain.engine;
 
 import com.github.tiagolofi.ports.Card;
 
@@ -8,6 +8,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 public class Player {
     private Deck deck;
     private DiscardPile discardPile;
+    private Strikes strikes;
     private boolean isActive;
     private boolean isWinner;
 
@@ -51,10 +52,26 @@ public class Player {
         this.discardPile = discardPile;
     }
 
+    public Strikes getStrikes() {
+        return this.strikes;
+    }
+
+    public void setStrikes(Strikes strikes) {
+        this.strikes = strikes;
+    }
+
     public Card attack() {
         Card attackCard = deck.getAttack(0);
         deck.removeAttack(attackCard);
         discardPile.addAttack(attackCard);
+        strikes.addStrike(attackCard);
         return attackCard;
+    }
+
+    public Card useMugic(int index) {
+        Card mugicCard = deck.getMugic(index);
+        deck.removeMugic(mugicCard);
+        strikes.addStrike(mugicCard);
+        return mugicCard;
     }
 }

@@ -16,16 +16,7 @@ public class Creature implements Card {
     private List<String> elements;
     private byte[] image;
 
-    public Creature(String chaoticId, String name, String tribe, List<String> subtype, Stats stats, List<Ability> abilities, byte[] image, List<String> elements) {
-        this.chaoticId = chaoticId;
-        this.name = name;
-        this.tribe = tribe;
-        this.subtype = subtype;
-        this.stats = stats;
-        this.abilities = abilities;
-        this.image = image;
-        this.elements = elements;
-    }
+    // TODO: transform to a builder pattern
 
     public String getChaoticId() {
         return this.chaoticId;

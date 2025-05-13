@@ -135,4 +135,9 @@ public class Stats implements Computable {
         throw new UnsupportedOperationException("Unimplemented method 'compute'");
     }
 
+    @Override
+    public int apply() {
+        throw new UnsupportedOperationException("Unimplemented method 'apply'");
+    }
+
 }

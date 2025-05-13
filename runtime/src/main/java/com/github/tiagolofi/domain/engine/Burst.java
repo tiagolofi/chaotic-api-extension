@@ -32,38 +32,62 @@ public class Burst {
         this.triggers.clear();
     }
 
-    public void applyTriggersCreatures(String who) {
+    public void applyTriggers(String self, String enemy) {
         triggers
             .stream()
-            .filter(Triggerable::isActive)
+            .filter(trigger -> !trigger.isToggleable())
             .forEach(trigger -> {
                 Target target = (Target) trigger.getTarget();
                 Value value = (Value) trigger.getValue();
 
-                processCreatures(who, target, value);
+                processCreatures(self, enemy, target, value);
             });
     }
 
-    private void processCreatures(String who, Target target, Value value) {
-        List<Card> creatures = board.getPlayer(who).getDeck().getCreatures();
+    private void processCreatures(String self, String enemy, Target target, Value value) {
+        List<Card> creaturesSelf = board.getPlayer(self).getDeck().getCreatures(); 
+        List<Card> creaturesEnemy = board.getPlayer(enemy).getDeck().getCreatures(); 
 
-        creatures.forEach(creature -> {
-            if (target.isApplicable(creature)) {
-                Creature c = (Creature) creature;
-
-                if ("discipline".equals(value.getAttributeType())) {
-                    c.getStats().compute(value.getAttribute(), (int) value.getValue());
-                } else if ("elements".equals(value.getAttributeType())) {
-                    if ("+".equals(value.getValue().toString().substring(0, 1))) {
-                        c.getElements().add((String) value.getValue());
-                    } else {
-                        c.getElements().remove(value.getValue());
-                    }
+        if ("both".equals(target.getSide())) {
+            creaturesSelf.forEach(creature -> {
+                if (target.isApplicable(creature)) {
+                    processCreature((Creature) creature, value);
+                    processDamage(self, value);
+                }  
+            });
+            creaturesEnemy.forEach(creature -> {
+                if (target.isApplicable(creature)) {
+                    processCreature((Creature) creature, value);
+                    processDamage(self, value);
                 }
+            });
+        } else if ("self".equals(target.getSide())) {
+            creaturesSelf.forEach(creature -> {
+                if (target.isApplicable(creature)) {
+                    processCreature((Creature) creature, value);
+                    processDamage(self, value);
+                }  
+            });
+        } else if ("enemy".equals(target.getSide())) {
+            creaturesEnemy.forEach(creature -> {
+                if (target.isApplicable(creature)) {
+                    processCreature((Creature) creature, value);
+                    processDamage(enemy, value);
+                }
+            });
+        }
+    }
 
-                processDamage(who, value);
+    private void processCreature(Creature creature, Value value) {
+        if ("discipline".equals(value.getAttributeType())) {
+                creature.getStats().compute(value.getAttribute(), (int) value.getValue());
+        } else if ("elements".equals(value.getAttributeType())) {
+            if ("+".equals(value.getValue().toString().substring(0, 1))) {
+                    creature.getElements().add((String) value.getValue());
+            } else {
+                    creature.getElements().remove(value.getValue());
             }
-        });
+        }
     }
 
     private void processDamage(String who, Value value) {

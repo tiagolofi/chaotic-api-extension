@@ -1,15 +1,16 @@
 package com.github.tiagolofi.domain.engine;
 
-import com.github.tiagolofi.ports.Card;
+import com.github.tiagolofi.adapters.Battlegear;
+import com.github.tiagolofi.adapters.Creature;
 
 public class Engaged {
-    private Card creature;
-    private Card battlegear;
+    private Creature creature;
+    private Battlegear battlegear;
     private boolean hasInitiative;
     private boolean isAlive;
     private boolean isBattlegearActive;
 
-    public Engaged(Card creature, Card battlegear) {
+    public Engaged(Creature creature, Battlegear battlegear) {
         this.creature = creature;
         this.battlegear = battlegear;
         this.hasInitiative = false;
@@ -17,19 +18,19 @@ public class Engaged {
         this.isBattlegearActive = false;
     }
 
-    public Card getCreature() {
+    public Creature getCreature() {
         return this.creature;
     }
 
-    public void setCreature(Card creature) {
+    public void setCreature(Creature creature) {
         this.creature = creature;
     }
 
-    public Card getBattlegear() {
+    public Battlegear getBattlegear() {
         return this.battlegear;
     }
 
-    public void setBattlegear(Card battlegear) {
+    public void setBattlegear(Battlegear battlegear) {
         this.battlegear = battlegear;
     }
 

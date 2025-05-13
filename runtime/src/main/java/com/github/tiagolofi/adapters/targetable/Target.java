@@ -39,17 +39,22 @@ public class Target implements Targetable {
         this.condition = condition;
     }
 
-
     @Override
     public boolean isApplicable(Card card) {
         if (this.condition == null) return false;
 
-        Creature creature = (Creature) card;
+        if ("creature".equals(getType())) {
+            Creature creature = (Creature) card;
 
-        if (tribe(creature)) return true;
-        if (subtype(creature)) return true;
-        return elements(creature);
+            if (tribe(creature)) return true;
+            if (subtype(creature)) return true;
+            return elements(creature);
+        }
 
+        // TODO: Implement other types
+
+        return false;
+                
     }
 
     private boolean tribe(Creature card) {
@@ -75,21 +80,26 @@ public class Target implements Targetable {
             .orElse(false);
     }
 
-    private boolean compare(Creature card) {
-        if (condition.getDiscipline() == null || condition.getOperator() == null) return true;
-        try {
-            Object stats = card.getClass().getMethod("getStats").invoke(card);
-            int statValue = (int) stats.getClass().getMethod("get", String.class).invoke(stats, condition.getDiscipline());
-            int condValue = condition.getIntValue();
-            switch (condition.getOperator()) {
-                case ">=": return statValue >= condValue;
-                case "<":  return statValue < condValue;
-                case ">":  return statValue > condValue;
-                default: return false;
-            }
-        } catch (Exception e) {
-            return false;
+    private boolean compare(Creature creature1, Creature creature2) {
+        if (condition.getOperator() == null) return false;
+        String discipline = condition.getDiscipline();
+        switch (condition.getOperator()) {
+            case ">=":
+                return creature1.getStats().get(discipline) >= creature2.getStats().get(discipline);
+            case "<":  
+                return creature1.getStats().get(discipline) < creature2.getStats().get(discipline);
+            case ">":  
+                return creature1.getStats().get(discipline) < creature2.getStats().get(discipline);
+            default: return false;
         }
+        
+    }
+
+    @Override
+    public boolean isApplicable(Card card1, Card card2) {
+        Creature creature1 = (Creature) card1;
+        Creature creature2 = (Creature) card2;
+        return compare(creature1, creature2);
     }
 
 }

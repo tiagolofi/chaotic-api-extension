@@ -2,9 +2,13 @@ package com.github.tiagolofi.domain.engine;
 
 import java.util.Arrays;
 
+import com.github.tiagolofi.adapters.Attack;
 import com.github.tiagolofi.adapters.Creature;
 import com.github.tiagolofi.adapters.Location;
-import com.github.tiagolofi.domain.objects.Player;
+import com.github.tiagolofi.adapters.Mugic;
+import com.github.tiagolofi.adapters.targetable.Target;
+import com.github.tiagolofi.adapters.valuable.Value;
+import com.github.tiagolofi.ports.Card;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -47,17 +51,20 @@ public class Turn {
 
     public void startTurn() {
         Location location = (Location) board.getLocation();
-        Creature creaturePlayer1 = (Creature) engagedPlayer1.getCreature();
-        Creature creaturePlayer2 = (Creature) engagedPlayer2.getCreature();
+        Creature creaturePlayer1 = engagedPlayer1.getCreature();
+        Creature creaturePlayer2 = engagedPlayer2.getCreature();
 
         location.getEffects()
-            .forEach(effect -> burst.addTrigger(effect));
+                .forEach(effect -> burst.addTrigger(effect));
 
         creaturePlayer1.getAbilities()
-            .forEach(ability -> burst.addTrigger(ability));
+                .forEach(ability -> burst.addTrigger(ability));
 
         creaturePlayer2.getAbilities()
-            .forEach(ability -> burst.addTrigger(ability));
+                .forEach(ability -> burst.addTrigger(ability));
+
+        burst.applyTriggers("player1", "player2");
+        burst.applyTriggers("player2", "player1");
 
         String iniciative = location.getInitiative();
         String attributeType = getIniciative(iniciative);
@@ -81,12 +88,104 @@ public class Turn {
         if (engagedPlayer1.hasInitiative()) {
             Player player = board.getPlayer("player1");
             player.attack();
+            computeAttack(player, engagedPlayer1, engagedPlayer2);
             engagedPlayer1.setHasInitiative(false);
+            engagedPlayer2.setHasInitiative(true);
         } else {
             Player player = board.getPlayer("player2");
             player.attack();
+            computeAttack(player, engagedPlayer2, engagedPlayer1);
             engagedPlayer2.setHasInitiative(false);
+            engagedPlayer1.setHasInitiative(true);
         }
+    }
+
+    public void mugicEvent(int index) {
+        if (engagedPlayer1.hasInitiative()) {
+            Player player = board.getPlayer("player1");
+            player.useMugic(index);
+            computeMugic(player, engagedPlayer1, engagedPlayer2);
+            engagedPlayer1.setHasInitiative(false);
+            engagedPlayer2.setHasInitiative(true);
+        } else {
+            Player player = board.getPlayer("player2");
+            player.useMugic(index);
+            computeMugic(player, engagedPlayer2, engagedPlayer1);
+            engagedPlayer2.setHasInitiative(false);
+            engagedPlayer1.setHasInitiative(true);
+        }
+    }
+
+    private void computeMugic(Player player, Engaged self, Engaged enemy) {
+        Card card = player.getStrikes().getStrike();
+        Mugic mugic = (Mugic) card;
+
+        mugic.getEffects()
+                .stream()
+                .forEach(effect -> {
+                    Target target = (Target) effect.getTarget();
+                    Value value = (Value) effect.getValue();
+                    if ("enemy".equals(target.getSide())) { // TODO: process to yours and theis
+                        processMugic(enemy, value);
+                    } else if ("self".equals(target.getSide())) {
+                       processMugic(self, value);
+                    } else if ("both".equals(target.getSide())) {
+                        processMugic(self, value);
+                        processMugic(enemy, value);
+                    }
+                });
+
+        if (!enemy.isAlive()) {
+            player.setWinner(true);
+        }
+    }
+
+    private void processMugic(Engaged engaged, Value value) {
+        if ("discipline".equals(value.getAttributeType())) {
+            engaged.getCreature().getStats().addStat(value.getAttribute(), (int) value.getValue());
+        } else if ("elements".equals(value.getAttributeType())) {
+            if ("+".equals(value.getValue().toString().substring(0, 1))) {
+                engaged.getCreature().getElements().add((String) value.getValue());
+            } else {
+                engaged.getCreature().getElements().remove(value.getValue());
+            }
+        }
+    }
+
+    private void computeAttack(Player player, Engaged self, Engaged enemy) {
+        Card card = player.getStrikes().getStrike();
+        Attack attack = (Attack) card;
+
+        enemy.getCreature().getStats().setEnergy(attack.getDamage().getBasic());
+
+        attack.getRules()
+                .stream() // TODO: check if rule not is comparation
+                .filter(rule -> rule.getTarget().isApplicable(self.getCreature(), enemy.getCreature()))
+                .forEach(rule -> {
+                    Value value = (Value) rule.getValue();
+                    enemy.getCreature().getStats().setEnergy((int) value.getValue());
+                });
+
+        if (!enemy.isAlive()) {
+            player.setWinner(true);
+        }
+    }
+
+    // TODO: computeMugic and computeBattlegear
+
+    public void closeTurn(Player player1, Player player2) {
+        if (player1.isWinner()) {
+            player2.getDeck().removeCreature(engagedPlayer2.getCreature());
+        } else if (player2.isWinner()) {
+            player1.getDeck().removeCreature(engagedPlayer1.getCreature());
+        }
+
+        burst.clear();
+        board.setLocation(null);
+        player1.getDiscardPile().clear();
+        player1.getStrikes().clear();
+        player2.getDiscardPile().clear();
+        player2.getStrikes().clear();
     }
 
 }

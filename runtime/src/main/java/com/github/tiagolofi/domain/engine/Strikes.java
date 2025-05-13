@@ -5,9 +5,6 @@ import java.util.List;
 
 import com.github.tiagolofi.ports.Card;
 
-import jakarta.enterprise.context.ApplicationScoped;
-
-@ApplicationScoped
 public class Strikes {
     private List<Card> strikes = new ArrayList<>();
 
@@ -17,6 +14,13 @@ public class Strikes {
 
     public void removeStrike(Card strike) {
         this.strikes.remove(strike);
+    }
+
+    public Card getStrike() {
+        if (strikes.isEmpty()) {
+            return null;
+        }
+        return strikes.get(strikes.size() - 1);
     }
 
     public List<Card> getStrikes() {

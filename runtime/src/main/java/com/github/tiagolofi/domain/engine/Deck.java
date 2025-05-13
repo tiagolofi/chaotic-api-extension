@@ -1,4 +1,4 @@
-package com.github.tiagolofi.domain.objects;
+package com.github.tiagolofi.domain.engine;
 
 import java.util.ArrayList;
 import java.util.List;
