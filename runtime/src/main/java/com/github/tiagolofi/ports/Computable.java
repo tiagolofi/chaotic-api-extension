@@ -1,7 +1,7 @@
 package com.github.tiagolofi.ports;
 
 public interface Computable {
-    public String getAttribute();
-    public String getStringValue();
-    public int getIntValue();
+    public void compute(String attribute, int value);
+
+    public void compute(String attribute, String value);
 }

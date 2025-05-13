@@ -13,8 +13,6 @@ import jakarta.inject.Inject;
 public class Board {
     private Card location;
 
-    private static final String ABILITY_TYPE = "board";
-
     @Inject
     Player player1;
 
@@ -33,34 +31,32 @@ public class Board {
     }
 
     public void startBoard() {
-        List<Card> cards = player1.getDeck()
+        List<Card> cardsPlayer1 = player1.getDeck()
             .getCreatures();
 
-        cards.forEach(card -> {
+        List<Card> cardsPlayer2 = player2.getDeck()
+            .getCreatures();
+
+        cardsPlayer1.forEach(card -> {
             Creature creature = (Creature) card;
             creature.getAbilities()
-                .stream()
-                .filter(ability -> ABILITY_TYPE.equals(ability.getType()))
+                .forEach(ability -> burst.addTrigger(ability));  
+        });
+
+        cardsPlayer2.forEach(card -> {
+            Creature creature = (Creature) card;
+            creature.getAbilities()
                 .forEach(ability -> burst.addTrigger(ability));  
         });
     }
 
-    private Player getPlayer(String who) {
+    public Player getPlayer(String who) {
         if ("player1".equalsIgnoreCase(who)) {
             return player1;
         } else if ("player2".equalsIgnoreCase(who)) {
             return player2;
         }
-        return new Player();
+        throw new IllegalArgumentException("Invalid player: " + who);
     }
-
-    public Card getAttack(String who) {
-        Player player = getPlayer(who);
-        Card attackCard = player.getDeck().getAttack(0);
-        player.getDeck().removeAttack(attackCard);
-        player.getDiscardPile().addAttack(attackCard);
-        return attackCard;
-    }
-
 
 }

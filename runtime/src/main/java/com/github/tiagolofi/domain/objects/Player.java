@@ -1,5 +1,7 @@
 package com.github.tiagolofi.domain.objects;
 
+import com.github.tiagolofi.ports.Card;
+
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
@@ -47,5 +49,12 @@ public class Player {
 
     public void setDiscardPile(DiscardPile discardPile) {
         this.discardPile = discardPile;
+    }
+
+    public Card attack() {
+        Card attackCard = deck.getAttack(0);
+        deck.removeAttack(attackCard);
+        discardPile.addAttack(attackCard);
+        return attackCard;
     }
 }

@@ -1,5 +1,7 @@
 package com.github.tiagolofi.adapters.computable;
 
+import com.github.tiagolofi.adapters.Attack;
+import com.github.tiagolofi.ports.Card;
 import com.github.tiagolofi.ports.Computable;
 
 public class Damage implements Computable {
@@ -77,6 +79,18 @@ public class Damage implements Computable {
         this.water += water;
     }
 
+    public void addDamage(String name, int value) {
+        switch (name) {
+            case "basic": addBasic(value); break;
+            case "fire": addFire(value); break;
+            case "air": addAir(value); break;
+            case "earth": addEarth(value); break;
+            case "water": addWater(value); break;
+            default:
+                throw new IllegalArgumentException("Invalid damage type: " + name);
+        }
+    }
+
     public void removeBasic(int basic) {
         this.basic -= basic;
     }
@@ -98,18 +112,15 @@ public class Damage implements Computable {
     }
 
     @Override
-    public String getAttribute() {
-        throw new UnsupportedOperationException("Unimplemented method 'getAttribute'");
+    public void compute(String attribute, int value) {
+        addDamage(attribute, value);
     }
 
     @Override
-    public String getStringValue() {
-        throw new UnsupportedOperationException("Unimplemented method 'getValue'");
+    public void compute(String attribute, String value) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'compute'");
     }
 
-    @Override
-    public int getIntValue() {
-        throw new UnsupportedOperationException("Unimplemented method 'getIntValue'");
-    }
 
 }

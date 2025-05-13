@@ -1,5 +1,7 @@
 package com.github.tiagolofi.adapters.computable;
 
+import com.github.tiagolofi.adapters.Creature;
+import com.github.tiagolofi.ports.Card;
 import com.github.tiagolofi.ports.Computable;
 
 public class Stats implements Computable {
@@ -77,6 +79,17 @@ public class Stats implements Computable {
         this.energy += energy;
     }
 
+    public void addStat(String statName, int value) {
+        switch (statName.toLowerCase()) {
+            case "courage": addCourage(value); break;
+            case "power": addPower(value); break;
+            case "wisdom": addWisdom(value); break;
+            case "speed": addSpeed(value); break;
+            case "energy": addEnergy(value); break;
+            default: throw new IllegalArgumentException("Stat desconhecida: " + statName);
+        }
+    }
+
     public void removeCourage(int courage) {
         this.courage -= courage;
     }
@@ -98,35 +111,30 @@ public class Stats implements Computable {
     }
 
     public int get(String stat) {
-    switch (stat.toLowerCase()) {
-        case "courage":
-            return this.courage;
-        case "power":
-            return this.power;
-        case "wisdom":
-            return this.wisdom;
-        case "speed":
-            return this.speed;
-        case "energy":
-            return this.energy;
-        default:
-            throw new IllegalArgumentException("Stat desconhecida: " + stat);
-    }
-}
-
-    @Override
-    public String getAttribute() {
-        throw new UnsupportedOperationException("Unimplemented method 'getAttribute'");
+        switch (stat.toLowerCase()) {
+            case "courage":
+                return this.courage;
+            case "power":
+                return this.power;
+            case "wisdom":
+                return this.wisdom;
+            case "speed":
+                return this.speed;
+            case "energy":
+                return this.energy;
+            default:
+                throw new IllegalArgumentException("Stat desconhecida: " + stat);
+        }
     }
 
     @Override
-    public String getStringValue() {
-        throw new UnsupportedOperationException("Unimplemented method 'getValue'");
+    public void compute(String attribute, int value) {
+       addStat(attribute, value);
     }
 
     @Override
-    public int getIntValue() {
-        throw new UnsupportedOperationException("Unimplemented method 'getIntValue'");
+    public void compute(String attribute, String value) {
+        throw new UnsupportedOperationException("Unimplemented method 'compute'");
     }
 
 }

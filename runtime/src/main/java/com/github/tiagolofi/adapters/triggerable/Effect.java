@@ -1,5 +1,6 @@
 package com.github.tiagolofi.adapters.triggerable;
 
+import com.github.tiagolofi.adapters.computable.Value;
 import com.github.tiagolofi.ports.Computable;
 import com.github.tiagolofi.ports.Targetable;
 import com.github.tiagolofi.ports.Triggerable;
@@ -9,9 +10,9 @@ public class Effect implements Triggerable {
     private String type;
     private String description;
     private Targetable target;
-    private Computable value;
+    private Value value;
 
-    public Effect(String name, String description, String type, Targetable target, Computable value) {
+    public Effect(String name, String description, String type, Targetable target, Value value) {
         this.name = name;
         this.description = description;
         this.type = type;
@@ -31,11 +32,13 @@ public class Effect implements Triggerable {
         return this.description;
     }
 
+    @Override
     public Targetable getTarget() {
         return this.target;
     }
 
-    public Computable getValue() {
+    @Override
+    public Value getValue() {
         return this.value;
     }
 
@@ -55,7 +58,7 @@ public class Effect implements Triggerable {
         this.target = target;
     }
 
-    public void setValue(Computable value) {
+    public void setValue(Value value) {
         this.value = value;
     }
 

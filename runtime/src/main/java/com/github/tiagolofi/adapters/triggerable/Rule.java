@@ -1,15 +1,15 @@
 package com.github.tiagolofi.adapters.triggerable;
 
-import com.github.tiagolofi.ports.Computable;
+import com.github.tiagolofi.adapters.computable.Value;
 import com.github.tiagolofi.ports.Targetable;
 import com.github.tiagolofi.ports.Triggerable;
 
 public class Rule implements Triggerable {
     private String ruleDescription;
     private Targetable target;
-    private Computable effect;
+    private Value effect;
 
-    public Rule(String ruleDescription, Targetable target, Computable effect) {
+    public Rule(String ruleDescription, Targetable target, Value effect) {
         this.ruleDescription = ruleDescription;
         this.target = target;
         this.effect = effect;
@@ -23,19 +23,15 @@ public class Rule implements Triggerable {
         this.ruleDescription = ruleDescription;
     }
 
-    public Targetable getTarget() {
-        return this.target;
-    }
-
     public void setTarget(Targetable target) {
         this.target = target;
     }
 
-    public Computable getEffect() {
+    public Value getEffect() {
         return this.effect;
     }
 
-    public void setEffect(Computable effect) {
+    public void setEffect(Value effect) {
         this.effect = effect;
     }
 
@@ -47,6 +43,16 @@ public class Rule implements Triggerable {
     @Override
     public boolean isActive() {
         throw new UnsupportedOperationException("Unimplemented method 'isActive'");
+    }
+    
+    @Override
+    public Targetable getTarget() {
+        return this.target;
+    }
+
+    @Override
+    public Value getValue() {
+        return this.effect;
     }
 
 }

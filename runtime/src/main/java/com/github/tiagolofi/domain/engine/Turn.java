@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import com.github.tiagolofi.adapters.Creature;
 import com.github.tiagolofi.adapters.Location;
+import com.github.tiagolofi.domain.objects.Player;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -76,13 +77,15 @@ public class Turn {
         }
     }
 
-    public void event() {
+    public void eventAttack() {
         if (engagedPlayer1.hasInitiative()) {
-            board.getAttack("player1");
+            Player player = board.getPlayer("player1");
+            player.attack();
             engagedPlayer1.setHasInitiative(false);
         } else {
-            board.getAttack("player2");
-            engagedPlayer1.setHasInitiative(false);
+            Player player = board.getPlayer("player2");
+            player.attack();
+            engagedPlayer2.setHasInitiative(false);
         }
     }
 
