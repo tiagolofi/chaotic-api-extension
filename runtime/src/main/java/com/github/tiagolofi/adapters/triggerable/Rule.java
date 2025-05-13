@@ -1,15 +1,15 @@
 package com.github.tiagolofi.adapters.triggerable;
 
-import com.github.tiagolofi.adapters.computable.Value;
 import com.github.tiagolofi.ports.Targetable;
 import com.github.tiagolofi.ports.Triggerable;
+import com.github.tiagolofi.ports.Valuable;
 
 public class Rule implements Triggerable {
     private String ruleDescription;
     private Targetable target;
-    private Value effect;
+    private Valuable effect;
 
-    public Rule(String ruleDescription, Targetable target, Value effect) {
+    public Rule(String ruleDescription, Targetable target, Valuable effect) {
         this.ruleDescription = ruleDescription;
         this.target = target;
         this.effect = effect;
@@ -27,11 +27,11 @@ public class Rule implements Triggerable {
         this.target = target;
     }
 
-    public Value getEffect() {
+    public Valuable getEffect() {
         return this.effect;
     }
 
-    public void setEffect(Value effect) {
+    public void setEffect(Valuable effect) {
         this.effect = effect;
     }
 
@@ -51,7 +51,7 @@ public class Rule implements Triggerable {
     }
 
     @Override
-    public Value getValue() {
+    public Valuable getValue() {
         return this.effect;
     }
 

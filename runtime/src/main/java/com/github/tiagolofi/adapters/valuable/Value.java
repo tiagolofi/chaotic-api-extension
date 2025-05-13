@@ -1,11 +1,13 @@
-package com.github.tiagolofi.adapters.computable;
+package com.github.tiagolofi.adapters.valuable;
 
-public class Value {
+import com.github.tiagolofi.ports.Valuable;
+
+public class Value implements Valuable {
+    private boolean isValuable;
     private String attribute;
     private String attributeType;
-    private int intValue;
     private String operator;
-    private String strValue;
+    private Object value;
 
     public String getAttribute() {
         return this.attribute;
@@ -15,12 +17,8 @@ public class Value {
         return this.attributeType;
     }
 
-    public int getIntValue() {
-        return this.intValue;
-    }
-
-    public String getStrValue() {
-        return this.strValue;
+    public Object getValue() {
+        return this.value;
     }
 
     public String getOperator() {
@@ -35,16 +33,21 @@ public class Value {
         this.attributeType = attributeType;
     }
 
-    public void setIntValue(int intValue) {
-        this.intValue = intValue;
-    }
-
-    public void setStrValue(String strValue) {
-        this.strValue = strValue;
+    public void setValue(Object value) {
+        this.value = value;
     }
 
     public void setOperator(String operator) {
         this.operator = operator;
+    }
+
+    public void setValuable(boolean isValuable) {
+        this.isValuable = isValuable;
+    }
+
+    @Override
+    public boolean isValuable() {
+        return this.isValuable;
     }
 
 }

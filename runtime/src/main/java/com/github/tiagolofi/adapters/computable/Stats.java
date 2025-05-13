@@ -1,7 +1,5 @@
 package com.github.tiagolofi.adapters.computable;
 
-import com.github.tiagolofi.adapters.Creature;
-import com.github.tiagolofi.ports.Card;
 import com.github.tiagolofi.ports.Computable;
 
 public class Stats implements Computable {

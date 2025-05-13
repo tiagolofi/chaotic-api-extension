@@ -1,5 +1,5 @@
 package com.github.tiagolofi.ports;
 
 public interface Targetable {
-    public boolean satisfies(Card card);
+    public boolean isApplicable(Card card);
 }

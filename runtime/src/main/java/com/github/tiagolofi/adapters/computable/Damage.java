@@ -1,7 +1,5 @@
 package com.github.tiagolofi.adapters.computable;
 
-import com.github.tiagolofi.adapters.Attack;
-import com.github.tiagolofi.ports.Card;
 import com.github.tiagolofi.ports.Computable;
 
 public class Damage implements Computable {
@@ -118,9 +116,7 @@ public class Damage implements Computable {
 
     @Override
     public void compute(String attribute, String value) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'compute'");
     }
-
 
 }

@@ -1,7 +1,6 @@
 package com.github.tiagolofi.adapters.triggerable;
 
-import com.github.tiagolofi.adapters.computable.Value;
-import com.github.tiagolofi.ports.Computable;
+import com.github.tiagolofi.adapters.valuable.Value;
 import com.github.tiagolofi.ports.Targetable;
 import com.github.tiagolofi.ports.Triggerable;
 

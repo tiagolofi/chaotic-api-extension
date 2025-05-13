@@ -1,7 +1,6 @@
 package com.github.tiagolofi.adapters.targetable;
 
-import java.util.List;
-
+import com.github.tiagolofi.adapters.Creature;
 import com.github.tiagolofi.ports.Card;
 import com.github.tiagolofi.ports.Targetable;
 
@@ -40,47 +39,43 @@ public class Target implements Targetable {
         this.condition = condition;
     }
 
+
     @Override
-    public boolean satisfies(Card card) {
+    public boolean isApplicable(Card card) {
         if (this.condition == null) return false;
 
-        if (!satisfiesTribe(card)) return false;
-        if (!satisfiesSubtype(card)) return false;
-        if (!satisfiesElements(card)) return false;
-        return satisfiesDiscipline(card);
+        Creature creature = (Creature) card;
+
+        if (tribe(creature)) return true;
+        if (subtype(creature)) return true;
+        return elements(creature);
+
     }
 
-    private boolean satisfiesTribe(Card card) {
-        if (condition.getTribe() == null || condition.getTribe().isEmpty()) return true;
-        try {
-            List<String> cardTribes = (List<String>) card.getClass().getMethod("getTribe").invoke(card);
-            return cardTribes != null && cardTribes.stream().anyMatch(condition.getTribe()::contains);
-        } catch (Exception e) {
-            return false;
-        }
+    private boolean tribe(Creature card) {
+        if (condition.getTribe() == null || condition.getTribe().isEmpty()) return false;
+        return condition.getTribe().contains(card.getTribe());
     }
 
-    private boolean satisfiesSubtype(Card card) {
-        if (condition.getSubtype() == null || condition.getSubtype().isEmpty()) return true;
-        try {
-            List<String> cardSubtypes = (List<String>) card.getClass().getMethod("getSubtype").invoke(card);
-            return cardSubtypes != null && cardSubtypes.stream().anyMatch(condition.getSubtype()::contains);
-        } catch (Exception e) {
-            return false;
-        }
+    private boolean subtype(Creature card) {
+        if (condition.getSubtype() == null || condition.getSubtype().isEmpty()) return false;
+        return card.getSubtype()
+            .stream()
+            .map(subtype -> condition.getSubtype().contains(subtype))
+            .findFirst()
+            .orElse(false);
     }
 
-    private boolean satisfiesElements(Card card) {
-        if (condition.getElements() == null || condition.getElements().isEmpty()) return true;
-        try {
-            List<String> cardElements = (List<String>) card.getClass().getMethod("getElements").invoke(card);
-            return cardElements != null && cardElements.stream().anyMatch(condition.getElements()::contains);
-        } catch (Exception e) {
-            return false;
-        }
+    private boolean elements(Creature card) {
+        if (condition.getElements() == null || condition.getElements().isEmpty()) return false;
+        return card.getElements()
+            .stream()
+            .map(element -> condition.getElements().contains(element))
+            .findFirst()
+            .orElse(false);
     }
 
-    private boolean satisfiesDiscipline(Card card) {
+    private boolean compare(Creature card) {
         if (condition.getDiscipline() == null || condition.getOperator() == null) return true;
         try {
             Object stats = card.getClass().getMethod("getStats").invoke(card);
