@@ -74,4 +74,5 @@ public class Player {
         strikes.addStrike(mugicCard);
         return mugicCard;
     }
+
 }

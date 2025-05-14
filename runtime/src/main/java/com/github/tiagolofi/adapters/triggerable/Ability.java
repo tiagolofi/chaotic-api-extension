@@ -11,12 +11,16 @@ public class Ability implements Triggerable {
     private Targetable target;
     private Valuable value;
 
-    public Ability(String name, String type, String description, Targetable target, Valuable value) {
-        this.name = name;
-        this.type = type;
-        this.description = description;
-        this.target = target;
-        this.value = value;
+    public Ability(Builder builder) {
+        this.name = builder.name;
+        this.type = builder.type;
+        this.description = builder.description;
+        this.target = builder.target;
+        this.value = builder.value;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public String getName() {
@@ -69,6 +73,43 @@ public class Ability implements Triggerable {
     @Override
     public boolean isActive() {
         throw new UnsupportedOperationException("Unimplemented method 'isActive'");
+    }
+
+    public static class Builder {
+        private String name;
+        private String type;
+        private String description;
+        private Targetable target;
+        private Valuable value;
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder type(String type) {
+            this.type = type;
+            return this;
+        }
+
+        public Builder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder target(Targetable target) {
+            this.target = target;
+            return this;
+        }
+
+        public Builder value(Valuable value) {
+            this.value = value;
+            return this;
+        }
+
+        public Ability build() {
+            return new Ability(this);
+        }
     }
 
 }

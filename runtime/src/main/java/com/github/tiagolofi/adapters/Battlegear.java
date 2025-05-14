@@ -1,5 +1,6 @@
 package com.github.tiagolofi.adapters;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.github.tiagolofi.adapters.triggerable.Effect;
@@ -12,12 +13,16 @@ public class Battlegear implements Card {
     private List<Effect> effects;
     private byte[] image;
 
-    public Battlegear(String chaoticId, String name, String text, List<Effect> effects, byte[] image) {
-        this.chaoticId = chaoticId;
-        this.name = name;
-        this.text = text;
-        this.effects = effects;
-        this.image = image;
+    private Battlegear(Builder builder) {
+        this.chaoticId = builder.chaoticId;
+        this.name = builder.name;
+        this.text = builder.text;
+        this.effects = builder.effects;
+        this.image = builder.image;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public String getChaoticId() {
@@ -58,6 +63,48 @@ public class Battlegear implements Card {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public static class Builder {
+        private String chaoticId;
+        private String name;
+        private String text;
+        private List<Effect> effects = new ArrayList<>();
+        private byte[] image;
+
+        public Builder chaoticId(String chaoticId) {
+            this.chaoticId = chaoticId;
+            return this;
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder text(String text) {
+            this.text = text;
+            return this;
+        }
+
+        public Builder effects(List<Effect> effects) {
+            this.effects = effects;
+            return this;
+        }
+
+        public Builder addEffect(Effect effect) {
+            this.effects.add(effect);
+            return this;
+        }
+
+        public Builder image(byte[] image) {
+            this.image = image;
+            return this;
+        }
+
+        public Battlegear build() {
+            return new Battlegear(this);
+        }
     }
 
 }

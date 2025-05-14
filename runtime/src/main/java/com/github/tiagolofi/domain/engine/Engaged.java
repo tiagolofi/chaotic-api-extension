@@ -4,18 +4,24 @@ import com.github.tiagolofi.adapters.Battlegear;
 import com.github.tiagolofi.adapters.Creature;
 
 public class Engaged {
+    private Player player;
     private Creature creature;
     private Battlegear battlegear;
     private boolean hasInitiative;
     private boolean isAlive;
     private boolean isBattlegearActive;
 
-    public Engaged(Creature creature, Battlegear battlegear) {
+    public Engaged(Player player, Creature creature, Battlegear battlegear) {
+        this.player = player;
         this.creature = creature;
         this.battlegear = battlegear;
         this.hasInitiative = false;
         this.isAlive = true;
         this.isBattlegearActive = false;
+    }
+
+    public Player getPlayer() {
+        return this.player;
     }
 
     public Creature getCreature() {

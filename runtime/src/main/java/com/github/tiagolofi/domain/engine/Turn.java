@@ -1,6 +1,7 @@
 package com.github.tiagolofi.domain.engine;
 
 import java.util.Arrays;
+import java.util.List;
 
 import com.github.tiagolofi.adapters.Attack;
 import com.github.tiagolofi.adapters.Creature;
@@ -88,55 +89,103 @@ public class Turn {
         if (engagedPlayer1.hasInitiative()) {
             Player player = board.getPlayer("player1");
             player.attack();
-            computeAttack(player, engagedPlayer1, engagedPlayer2);
+            computeAttack(engagedPlayer1, engagedPlayer2);
             engagedPlayer1.setHasInitiative(false);
             engagedPlayer2.setHasInitiative(true);
         } else {
             Player player = board.getPlayer("player2");
             player.attack();
-            computeAttack(player, engagedPlayer2, engagedPlayer1);
+            computeAttack(engagedPlayer2, engagedPlayer1);
             engagedPlayer2.setHasInitiative(false);
             engagedPlayer1.setHasInitiative(true);
         }
     }
 
-    public void mugicEvent(int index) {
+    public void eventMugic(int index) {
         if (engagedPlayer1.hasInitiative()) {
             Player player = board.getPlayer("player1");
             player.useMugic(index);
-            computeMugic(player, engagedPlayer1, engagedPlayer2);
+            computeMugic(engagedPlayer1, engagedPlayer2);
             engagedPlayer1.setHasInitiative(false);
             engagedPlayer2.setHasInitiative(true);
         } else {
             Player player = board.getPlayer("player2");
             player.useMugic(index);
-            computeMugic(player, engagedPlayer2, engagedPlayer1);
+            computeMugic(engagedPlayer2, engagedPlayer1);
             engagedPlayer2.setHasInitiative(false);
             engagedPlayer1.setHasInitiative(true);
         }
     }
 
-    private void computeMugic(Player player, Engaged self, Engaged enemy) {
-        Card card = player.getStrikes().getStrike();
+    public void eventBattlegear() {
+        if (engagedPlayer1.hasInitiative()) {
+            engagedPlayer1.setBattlegearActive(true);
+            computeBattlegear(engagedPlayer1, engagedPlayer2);
+        } else if (engagedPlayer2.hasInitiative()) {
+            engagedPlayer2.setBattlegearActive(true);
+        }
+    }
+
+    private void computeBattlegear(Engaged self, Engaged enemy) {
+        self.getBattlegear().getEffects()
+                .forEach(effect -> {
+                    Target target = (Target) effect.getTarget();
+                    Value value = (Value) effect.getValue();
+                    if ("enemy".equals(target.getSide())) {
+                        processBattlegear(enemy, value);
+                    } else if ("self".equals(target.getSide())) {
+                        processBattlegear(self, value);
+                    } else if ("both".equals(target.getSide())) {
+                        processBattlegear(self, value);
+                        processBattlegear(enemy, value);
+                    }
+                });
+    }
+
+    private void processBattlegear(Engaged engaged, Value value) {
+        if ("discipline".equals(value.getAttributeType())) {
+            engaged.getCreature().getStats().addStat(value.getAttribute(), (int) value.getValue());
+        } else if ("elements".equals(value.getAttributeType())) {
+            if ("+".equals(value.getValue().toString().substring(0, 1))) {
+                engaged.getCreature().getElements().add((String) value.getValue());
+            } else {
+                engaged.getCreature().getElements().remove(value.getValue());
+            }
+        }
+    }
+
+    private void computeMugic(Engaged self, Engaged enemy) {
+        Card card = self.getPlayer().getStrikes().getStrike();
         Mugic mugic = (Mugic) card;
+
+        List<Card> selfCreatures = self.getPlayer().getDeck().getCreatures();
+        List<Card> enemyCreatures = enemy.getPlayer().getDeck().getCreatures();
 
         mugic.getEffects()
                 .stream()
                 .forEach(effect -> {
                     Target target = (Target) effect.getTarget();
                     Value value = (Value) effect.getValue();
-                    if ("enemy".equals(target.getSide())) { // TODO: process to yours and theis
+                    if ("enemy".equals(target.getSide())) {
                         processMugic(enemy, value);
                     } else if ("self".equals(target.getSide())) {
-                       processMugic(self, value);
+                        processMugic(self, value);
                     } else if ("both".equals(target.getSide())) {
                         processMugic(self, value);
                         processMugic(enemy, value);
+                    } else if ("yours".equals(target.getSide())) {
+                        selfCreatures.forEach(creature -> {
+                            processMugicAll((Creature) creature, value);
+                        });
+                    } else if ("theirs".equals(target.getSide())) {
+                        enemyCreatures.forEach(creature -> {
+                            processMugicAll((Creature) creature, value);
+                        });
                     }
                 });
 
         if (!enemy.isAlive()) {
-            player.setWinner(true);
+            self.getPlayer().setWinner(true);
         }
     }
 
@@ -152,22 +201,37 @@ public class Turn {
         }
     }
 
-    private void computeAttack(Player player, Engaged self, Engaged enemy) {
-        Card card = player.getStrikes().getStrike();
+    private void processMugicAll(Creature creature, Value value) {
+        if ("discipline".equals(value.getAttributeType())) {
+            creature.getStats().addStat(value.getAttribute(), (int) value.getValue());
+        } else if ("elements".equals(value.getAttributeType())) {
+            if ("+".equals(value.getValue().toString().substring(0, 1))) {
+                creature.getElements().add((String) value.getValue());
+            } else {
+                creature.getElements().remove(value.getValue());
+            }
+        }
+    }
+
+    private void computeAttack(Engaged self, Engaged enemy) {
+        Card card = self.getPlayer().getStrikes().getStrike();
         Attack attack = (Attack) card;
 
         enemy.getCreature().getStats().setEnergy(attack.getDamage().getBasic());
 
         attack.getRules()
-                .stream() // TODO: check if rule not is comparation
-                .filter(rule -> rule.getTarget().isApplicable(self.getCreature(), enemy.getCreature()))
+                .stream()
                 .forEach(rule -> {
                     Value value = (Value) rule.getValue();
-                    enemy.getCreature().getStats().setEnergy((int) value.getValue());
+                    if (rule.getTarget().isComparable() && rule.getTarget().isComparable(self.getCreature(), enemy.getCreature())) {
+                        enemy.getCreature().getStats().setEnergy((int) value.getValue());
+                    } else {
+                        enemy.getCreature().getStats().setEnergy((int) value.getValue());
+                    }
                 });
 
         if (!enemy.isAlive()) {
-            player.setWinner(true);
+            self.getPlayer().setWinner(true);
         }
     }
 

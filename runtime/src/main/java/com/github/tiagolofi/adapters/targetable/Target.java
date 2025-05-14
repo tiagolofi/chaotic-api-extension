@@ -10,9 +10,14 @@ public class Target implements Targetable {
     private String side;
     private Condition condition;
 
-    public Target(String type, String side) {
-        this.type = type;
-        this.side = side;
+    public Target(Builder builder) {
+        this.type = builder.type;
+        this.side = builder.side;
+        this.condition = builder.condition;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public String getType() {
@@ -51,10 +56,19 @@ public class Target implements Targetable {
             return elements(creature);
         }
 
-        // TODO: Implement other types
-
         return false;
-                
+    }
+
+    @Override
+    public boolean isComparable(Card card1, Card card2) {
+        Creature creature1 = (Creature) card1;
+        Creature creature2 = (Creature) card2;
+        return compare(creature1, creature2);
+    }
+
+    @Override 
+    public boolean isComparable() {
+        return this.condition.getOperator() == null;
     }
 
     private boolean tribe(Creature card) {
@@ -92,14 +106,31 @@ public class Target implements Targetable {
                 return creature1.getStats().get(discipline) < creature2.getStats().get(discipline);
             default: return false;
         }
-        
     }
 
-    @Override
-    public boolean isApplicable(Card card1, Card card2) {
-        Creature creature1 = (Creature) card1;
-        Creature creature2 = (Creature) card2;
-        return compare(creature1, creature2);
+    public static class Builder {
+        private String type;
+        private String side;
+        private Condition condition;
+
+        public Builder type(String type) {
+            this.type = type;
+            return this;
+        }
+
+        public Builder side(String side) {
+            this.side = side;
+            return this;
+        }
+
+        public Builder condition(Condition condition) {
+            this.condition = condition;
+            return this;
+        }
+
+        public Target build() {
+            return new Target(this);
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package com.github.tiagolofi.adapters;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.github.tiagolofi.adapters.computable.Stats;
@@ -16,7 +17,20 @@ public class Creature implements Card {
     private List<String> elements;
     private byte[] image;
 
-    // TODO: transform to a builder pattern
+    private Creature(Builder builder) {
+        this.chaoticId = builder.chaoticId;
+        this.name = builder.name;
+        this.tribe = builder.tribe;
+        this.subtype = builder.subtype;
+        this.stats = builder.stats;
+        this.abilities = builder.abilities;
+        this.elements = builder.elements;
+        this.image = builder.image;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
 
     public String getChaoticId() {
         return this.chaoticId;
@@ -104,6 +118,76 @@ public class Creature implements Card {
 
     public void removeElement(String element) {
         this.elements.remove(element);
+    }
+
+    public static class Builder {
+        private String chaoticId;
+        private String name;
+        private String tribe;
+        private List<String> subtype = new ArrayList<>();
+        private Stats stats;
+        private List<Ability> abilities = new ArrayList<>();
+        private List<String> elements = new ArrayList<>();
+        private byte[] image;
+
+        public Builder chaoticId(String chaoticId) {
+            this.chaoticId = chaoticId;
+            return this;
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder tribe(String tribe) {
+            this.tribe = tribe;
+            return this;
+        }
+
+        public Builder subtype(List<String> subtype) {
+            this.subtype = subtype;
+            return this;
+        }
+
+        public Builder addSubtype(String subtype) {
+            this.subtype.add(subtype);
+            return this;
+        }
+
+        public Builder stats(Stats stats) {
+            this.stats = stats;
+            return this;
+        }
+
+        public Builder abilities(List<Ability> abilities) {
+            this.abilities = abilities;
+            return this;
+        }
+
+        public Builder addAbility(Ability ability) {
+            this.abilities.add(ability);
+            return this;
+        }
+
+        public Builder elements(List<String> elements) {
+            this.elements = elements;
+            return this;
+        }
+
+        public Builder addElement(String element) {
+            this.elements.add(element);
+            return this;
+        }
+
+        public Builder image(byte[] image) {
+            this.image = image;
+            return this;
+        }
+
+        public Creature build() {
+            return new Creature(this);
+        }
     }
 
 }

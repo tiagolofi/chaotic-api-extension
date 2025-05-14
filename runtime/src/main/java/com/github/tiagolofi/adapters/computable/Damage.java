@@ -9,12 +9,16 @@ public class Damage implements Computable {
     private int earth;
     private int water;
 
-    public Damage(int basic, int fire, int air, int earth, int water) {
-        this.basic = basic;
-        this.fire = fire;
-        this.air = air;
-        this.earth = earth;
-        this.water = water;
+    public Damage(Builder builder) {
+        this.basic = builder.basic;
+        this.fire = builder.fire;
+        this.air = builder.air;
+        this.earth = builder.earth;
+        this.water = builder.water;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public int getBasic() {
@@ -35,26 +39,6 @@ public class Damage implements Computable {
 
     public int getWater() {
         return this.water;
-    }
-
-    public void setBasic(int basic) {
-        this.basic = basic;
-    }
-
-    public void setFire(int fire) {
-        this.fire = fire;
-    }
-
-    public void setAir(int air) {
-        this.air = air;
-    }
-
-    public void setEarth(int earth) {
-        this.earth = earth;
-    }
-
-    public void setWater(int water) {
-        this.water = water;
     }
 
     public void addBasic(int basic) {
@@ -122,6 +106,43 @@ public class Damage implements Computable {
     @Override
     public int apply() {
         return this.fire + this.air + this.earth + this.water;
+    }
+
+    public static class Builder {
+        private int basic;
+        private int fire;
+        private int air;
+        private int earth;
+        private int water;
+
+        public Builder basic(int basic) {
+            this.basic = basic;
+            return this;
+        }
+
+        public Builder fire(int fire) {
+            this.fire = fire;
+            return this;
+        }
+
+        public Builder air(int air) {
+            this.air = air;
+            return this;
+        }
+
+        public Builder earth(int earth) {
+            this.earth = earth;
+            return this;
+        }
+
+        public Builder water(int water) {
+            this.water = water;
+            return this;
+        }
+
+        public Damage build() {
+            return new Damage(this);
+        }
     }
 
 }

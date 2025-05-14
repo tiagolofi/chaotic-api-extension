@@ -9,6 +9,18 @@ public class Value implements Valuable {
     private String operator;
     private Object value;
 
+    public Value(Builder builder) {
+        this.attribute = builder.attribute;
+        this.attributeType = builder.attributeType;
+        this.operator = builder.operator;
+        this.value = builder.value;
+        this.isValuable = builder.isValuable;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public String getAttribute() {
         return this.attribute;
     }
@@ -48,6 +60,43 @@ public class Value implements Valuable {
     @Override
     public boolean isValuable() {
         return this.isValuable;
+    }
+
+    public static class Builder {
+        private String attribute;
+        private String attributeType;
+        private String operator;
+        private Object value;
+        private boolean isValuable;
+
+        public Builder attribute(String attribute) {
+            this.attribute = attribute;
+            return this;
+        }
+
+        public Builder attributeType(String attributeType) {
+            this.attributeType = attributeType;
+            return this;
+        }
+
+        public Builder operator(String operator) {
+            this.operator = operator;
+            return this;
+        }
+
+        public Builder value(Object value) {
+            this.value = value;
+            return this;
+        }
+
+        public Builder isValuable(boolean isValuable) {
+            this.isValuable = isValuable;
+            return this;
+        }
+
+        public Value build() {
+            return new Value(this);
+        }
     }
 
 }

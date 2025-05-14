@@ -9,12 +9,16 @@ public class Stats implements Computable {
     private int speed;
     private int energy;
 
-    public Stats(int courage, int power, int wisdom, int speed, int energy) {
-        this.courage = courage;
-        this.power = power;
-        this.wisdom = wisdom;
-        this.speed = speed;
-        this.energy = energy;
+    public Stats(Builder builder) {
+        this.courage = builder.courage;
+        this.power = builder.power;
+        this.wisdom = builder.wisdom;
+        this.speed = builder.speed;
+        this.energy = builder.energy;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public int getCourage() {
@@ -138,6 +142,43 @@ public class Stats implements Computable {
     @Override
     public int apply() {
         throw new UnsupportedOperationException("Unimplemented method 'apply'");
+    }
+
+    public static class Builder {
+        private int courage;
+        private int power;
+        private int wisdom;
+        private int speed;
+        private int energy;
+
+        public Builder courage(int courage) {
+            this.courage = courage;
+            return this;
+        }
+
+        public Builder power(int power) {
+            this.power = power;
+            return this;
+        }
+
+        public Builder wisdom(int wisdom) {
+            this.wisdom = wisdom;
+            return this;
+        }
+
+        public Builder speed(int speed) {
+            this.speed = speed;
+            return this;
+        }
+
+        public Builder energy(int energy) {
+            this.energy = energy;
+            return this;
+        }
+
+        public Stats build() {
+            return new Stats(this);
+        }
     }
 
 }

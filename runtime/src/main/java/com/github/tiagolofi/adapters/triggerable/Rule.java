@@ -9,10 +9,14 @@ public class Rule implements Triggerable {
     private Targetable target;
     private Valuable effect;
 
-    public Rule(String ruleDescription, Targetable target, Valuable effect) {
-        this.ruleDescription = ruleDescription;
-        this.target = target;
-        this.effect = effect;
+    public Rule(Builder builder) {
+        this.ruleDescription = builder.ruleDescription;
+        this.target = builder.target;
+        this.effect = builder.effect;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public String getRuleDescription() {
@@ -53,6 +57,31 @@ public class Rule implements Triggerable {
     @Override
     public Valuable getValue() {
         return this.effect;
+    }
+
+    public static class Builder {
+        private String ruleDescription;
+        private Targetable target;
+        private Valuable effect;
+
+        public Builder ruleDescription(String ruleDescription) {
+            this.ruleDescription = ruleDescription;
+            return this;
+        }
+
+        public Builder target(Targetable target) {
+            this.target = target;
+            return this;
+        }
+
+        public Builder effect(Valuable effect) {
+            this.effect = effect;
+            return this;
+        }
+
+        public Rule build() {
+            return new Rule(this);
+        }
     }
 
 }

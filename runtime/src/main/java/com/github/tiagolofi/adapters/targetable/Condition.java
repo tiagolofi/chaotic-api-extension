@@ -11,14 +11,18 @@ public class Condition {
     private String strValue;
     private int intValue;
 
-    public Condition(List<String> tribe, List<String> subtype, List<String> elements, String discipline, String operator, String strValue, int intValue) {
-        this.tribe = tribe;
-        this.subtype = subtype;
-        this.elements = elements;
-        this.discipline = discipline;
-        this.operator = operator;
-        this.strValue = strValue;
-        this.intValue = intValue;
+    public Condition(Builder builder) {
+        this.tribe = builder.tribe;
+        this.subtype = builder.subtype;
+        this.elements = builder.elements;
+        this.discipline = builder.discipline;
+        this.operator = builder.operator;
+        this.strValue = builder.strValue;
+        this.intValue = builder.intValue;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public List<String> getTribe() {
@@ -75,5 +79,54 @@ public class Condition {
 
     public void setIntValue(int intValue) {
         this.intValue = intValue;
+    }
+
+    public static class Builder {
+        private List<String> tribe;
+        private List<String> subtype;
+        private List<String> elements;
+        private String discipline;
+        private String operator;
+        private String strValue;
+        private int intValue;
+
+        public Builder tribe(List<String> tribe) {
+            this.tribe = tribe;
+            return this;
+        }
+
+        public Builder subtype(List<String> subtype) {
+            this.subtype = subtype;
+            return this;
+        }
+
+        public Builder elements(List<String> elements) {
+            this.elements = elements;
+            return this;
+        }
+
+        public Builder discipline(String discipline) {
+            this.discipline = discipline;
+            return this;
+        }
+
+        public Builder operator(String operator) {
+            this.operator = operator;
+            return this;
+        }
+
+        public Builder strValue(String strValue) {
+            this.strValue = strValue;
+            return this;
+        }
+
+        public Builder intValue(int intValue) {
+            this.intValue = intValue;
+            return this;
+        }
+
+        public Condition build() {
+            return new Condition(this);
+        }
     }
 }

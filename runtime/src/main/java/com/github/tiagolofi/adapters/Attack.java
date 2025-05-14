@@ -1,5 +1,6 @@
 package com.github.tiagolofi.adapters;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.github.tiagolofi.adapters.computable.Damage;
@@ -14,13 +15,17 @@ public class Attack implements Card {
     private List<Rule> rules;
     private byte[] image;
 
-    public Attack(String chaoticId, String name, int buildCost, Damage damage, List<Rule> rules, byte[] image) {
-        this.chaoticId = chaoticId;
-        this.name = name;
-        this.buildCost = buildCost;
-        this.damage = damage;
-        this.rules = rules;
-        this.image = image;
+    private Attack(Builder builder) {
+        this.chaoticId = builder.chaoticId;
+        this.name = builder.name;
+        this.buildCost = builder.buildCost;
+        this.damage = builder.damage;
+        this.rules = builder.rules;
+        this.image = builder.image;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public String getChaoticId() {
@@ -69,5 +74,53 @@ public class Attack implements Card {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public static class Builder {
+        private String chaoticId;
+        private String name;
+        private int buildCost;
+        private Damage damage;
+        private List<Rule> rules = new ArrayList<>();
+        private byte[] image;
+
+        public Builder chaoticId(String chaoticId) {
+            this.chaoticId = chaoticId;
+            return this;
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder buildCost(int buildCost) {
+            this.buildCost = buildCost;
+            return this;
+        }
+
+        public Builder damage(Damage damage) {
+            this.damage = damage;
+            return this;
+        }
+
+        public Builder rules(List<Rule> rules) {
+            this.rules = rules;
+            return this;
+        }
+
+        public Builder addRule(Rule rule) {
+            this.rules.add(rule);
+            return this;
+        }
+
+        public Builder image(byte[] image) {
+            this.image = image;
+            return this;
+        }
+
+        public Attack build() {
+            return new Attack(this);
+        }
     }
 }
