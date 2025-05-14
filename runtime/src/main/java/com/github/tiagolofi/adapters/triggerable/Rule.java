@@ -1,5 +1,6 @@
 package com.github.tiagolofi.adapters.triggerable;
 
+import com.github.tiagolofi.ports.Computable;
 import com.github.tiagolofi.ports.Targetable;
 import com.github.tiagolofi.ports.Triggerable;
 import com.github.tiagolofi.ports.Valuable;
@@ -54,11 +55,6 @@ public class Rule implements Triggerable {
         return this.target;
     }
 
-    @Override
-    public Valuable getValue() {
-        return this.effect;
-    }
-
     public static class Builder {
         private String ruleDescription;
         private Targetable target;
@@ -82,6 +78,11 @@ public class Rule implements Triggerable {
         public Rule build() {
             return new Rule(this);
         }
+    }
+
+    @Override
+    public Valuable getValue() {
+        return this.effect;
     }
 
 }

@@ -99,4 +99,15 @@ public class Deck {
         this.mugic.clear();
         this.locations.clear();
     }
+
+    @Override
+    public String toString() {
+        return "Deck{" +
+                "creatures=" + creatures +
+                ", battlegears=" + battlegears +
+                ", attacks=" + attacks +
+                ", mugic=" + mugic +
+                ", locations=" + locations +
+                '}';
+    }
 }

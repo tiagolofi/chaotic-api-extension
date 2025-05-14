@@ -144,6 +144,17 @@ public class Stats implements Computable {
         throw new UnsupportedOperationException("Unimplemented method 'apply'");
     }
 
+    @Override
+    public String toString() {
+        return "Stats{" +
+                "courage=" + courage +
+                ", power=" + power +
+                ", wisdom=" + wisdom +
+                ", speed=" + speed +
+                ", energy=" + energy +
+                '}';
+    }
+
     public static class Builder {
         private int courage;
         private int power;

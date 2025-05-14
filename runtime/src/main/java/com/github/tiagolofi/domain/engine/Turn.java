@@ -12,18 +12,21 @@ import com.github.tiagolofi.adapters.valuable.Value;
 import com.github.tiagolofi.ports.Card;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class Turn {
     private Engaged engagedPlayer1;
     private Engaged engagedPlayer2;
+    private Burst burst;
+    private Board board;
 
-    @Inject
-    Burst burst;
+    public void setBurst(Burst burst) {
+        this.burst = burst;
+    }
 
-    @Inject
-    Board board;
+    public void setBoard(Board board) {
+        this.board = board;
+    }
 
     public Engaged getEngagedPlayer1() {
         return this.engagedPlayer1;
@@ -217,16 +220,17 @@ public class Turn {
         Card card = self.getPlayer().getStrikes().getStrike();
         Attack attack = (Attack) card;
 
-        enemy.getCreature().getStats().setEnergy(attack.getDamage().getBasic());
+        enemy.getCreature().getStats().removeEnergy(attack.getDamage().getBasic());
 
         attack.getRules()
                 .stream()
                 .forEach(rule -> {
                     Value value = (Value) rule.getValue();
                     if (rule.getTarget().isComparable() && rule.getTarget().isComparable(self.getCreature(), enemy.getCreature())) {
-                        enemy.getCreature().getStats().setEnergy((int) value.getValue());
+                        enemy.getCreature().getStats().removeEnergy((int) value.getValue());
                     } else {
-                        enemy.getCreature().getStats().setEnergy((int) value.getValue());
+                        enemy.getCreature().getStats().removeEnergy((int) value.getValue());
+                        // TODO: Implement the rest of the stats
                     }
                 });
 
@@ -234,8 +238,6 @@ public class Turn {
             self.getPlayer().setWinner(true);
         }
     }
-
-    // TODO: computeBattlegear
 
     public void closeTurn(Player player1, Player player2) {
         if (player1.isWinner()) {

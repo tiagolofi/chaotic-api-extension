@@ -11,14 +11,15 @@ import com.github.tiagolofi.ports.Card;
 import com.github.tiagolofi.ports.Triggerable;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class Burst {
     private List<Triggerable> triggers = new ArrayList<>();
+    private Board board;
 
-    @Inject
-    Board board;
+    public void setBoard(Board board) {
+        this.board = board;
+    }
 
     public void addTrigger(Triggerable trigger) {
         this.triggers.add(trigger);
@@ -45,8 +46,8 @@ public class Burst {
     }
 
     private void processCreatures(String self, String enemy, Target target, Value value) {
-        List<Card> creaturesSelf = board.getPlayer(self).getDeck().getCreatures(); 
-        List<Card> creaturesEnemy = board.getPlayer(enemy).getDeck().getCreatures(); 
+        List<Card> creaturesSelf = this.board.getPlayer(self).getDeck().getCreatures(); 
+        List<Card> creaturesEnemy = this.board.getPlayer(enemy).getDeck().getCreatures(); 
 
         if ("both".equals(target.getSide())) {
             creaturesSelf.forEach(creature -> {
@@ -97,6 +98,14 @@ public class Burst {
             Attack a = (Attack) attack;
             a.getDamage().compute(value.getAttribute(), (int) value.getValue());
         });
+    }
+
+    @Override
+    public String toString() {
+        return "Burst{" +
+                "triggers=" + triggers +
+                ", board=" + board +
+                '}';
     }
 
 }

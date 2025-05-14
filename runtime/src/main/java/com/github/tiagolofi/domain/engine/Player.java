@@ -7,8 +7,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class Player {
     private Deck deck;
-    private DiscardPile discardPile;
-    private Strikes strikes;
+    private DiscardPile discardPile = new DiscardPile();
+    private Strikes strikes = new Strikes();
     private boolean isActive;
     private boolean isWinner;
 

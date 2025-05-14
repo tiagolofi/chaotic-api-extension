@@ -6,20 +6,25 @@ import com.github.tiagolofi.adapters.Creature;
 import com.github.tiagolofi.ports.Card;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 
 @ApplicationScoped
 public class Board {
     private Card location;
+    private Player player1;
+    private Player player2;
+    private Burst burst;
 
-    @Inject
-    Player player1;
+    public void setBurst(Burst burst) {
+        this.burst = burst;
+    }
 
-    @Inject
-    Player player2;
+    public void setPlayer1(Player player1) {
+        this.player1 = player1;
+    }
 
-    @Inject
-    Burst burst;
+    public void setPlayer2(Player player2) {
+        this.player2 = player2;
+    }
 
     public Card getLocation() {
         return this.location;

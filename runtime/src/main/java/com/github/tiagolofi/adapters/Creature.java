@@ -120,6 +120,19 @@ public class Creature implements Card {
         this.elements.remove(element);
     }
 
+    @Override
+    public String toString() {
+        return "Creature{" +
+                "chaoticId='" + chaoticId + '\'' +
+                ", name='" + name + '\'' +
+                ", tribe='" + tribe + '\'' +
+                ", subtype=" + subtype +
+                ", stats=" + stats +
+                ", abilities=" + abilities +
+                ", elements=" + elements +
+                '}';
+    }
+
     public static class Builder {
         private String chaoticId;
         private String name;

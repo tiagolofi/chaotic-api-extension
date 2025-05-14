@@ -8,6 +8,7 @@ public class Ability implements Triggerable {
     private String name;
     private String type;
     private String description;
+    private boolean isToggleable;
     private Targetable target;
     private Valuable value;
 
@@ -15,6 +16,7 @@ public class Ability implements Triggerable {
         this.name = builder.name;
         this.type = builder.type;
         this.description = builder.description;
+        this.isToggleable = builder.isToggleable;
         this.target = builder.target;
         this.value = builder.value;
     }
@@ -67,7 +69,7 @@ public class Ability implements Triggerable {
 
     @Override
     public boolean isToggleable() {
-        throw new UnsupportedOperationException("Unimplemented method 'isToggleable'");
+        return this.isToggleable;
     }
 
     @Override
@@ -79,6 +81,7 @@ public class Ability implements Triggerable {
         private String name;
         private String type;
         private String description;
+        private boolean isToggleable;
         private Targetable target;
         private Valuable value;
 
@@ -94,6 +97,11 @@ public class Ability implements Triggerable {
 
         public Builder description(String description) {
             this.description = description;
+            return this;
+        }
+
+        public Builder isToggleable(boolean isToggleable) {
+            this.isToggleable = isToggleable;
             return this;
         }
 
